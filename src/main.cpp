@@ -1365,10 +1365,11 @@ int main(int argc, char *argv[])
 	// Resolution selection
 	
 	bool fullscreen = false;
-	u16 screenW = g_settings->getU16("screenW");
-	u16 screenH = g_settings->getU16("screenH");
-	//u8 screenW = 640;//g_settings->getU16("screenW");
-	//u8 screenH = 480;//g_settings->getU16("screenH");
+	if(g_settings->exists("screenW")) u16 screenW = g_settings->getU16("screenW");
+	else u16 screenW = 640;
+	if(g_settings->exists("screenH")) u16 screenH = g_settings->getU16("screenH");
+	else screenH = 480;
+
 
 	// Determine driver
 
