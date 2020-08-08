@@ -33,15 +33,15 @@ double cos_lookup[16] = {
 };
 
 double dotProduct(double vx, double vy, double wx, double wy){
-    return vx*wx+vy*wy;
+    return (vx*wx)+(vy*wy);
 }
  
 double easeCurve(double t){
-    return 6*pow(t,5)-15*pow(t,4)+10*pow(t,3);
+    return (6*pow(t,5))-(15*pow(t,4))+(10*pow(t,3));
 }
  
 double linearInterpolation(double x0, double x1, double t){
-    return x0+(x1-x0)*t;
+    return (x0+((x1-x0)*t));
 }
  
 double biLinearInterpolation(double x0y0, double x1y0, double x0y1, double x1y1, double x, double y){
@@ -59,40 +59,40 @@ double triLinearInterpolation(
 		double v001, double v101, double v011, double v111,
 		double x, double y, double z)
 {
-    /*double tx = easeCurve(x);
-    double ty = easeCurve(y);
-    double tz = easeCurve(z);*/
+    //double tx = easeCurve(x);
+    //double ty = easeCurve(y);
+    //double tz = easeCurve(z); //localjclasjkcdsjlk
     double tx = x;
     double ty = y;
     double tz = z;
 	return(
-		v000*(1-tx)*(1-ty)*(1-tz) +
-		v100*tx*(1-ty)*(1-tz) +
-		v010*(1-tx)*ty*(1-tz) +
-		v110*tx*ty*(1-tz) +
-		v001*(1-tx)*(1-ty)*tz +
-		v101*tx*(1-ty)*tz +
-		v011*(1-tx)*ty*tz +
-		v111*tx*ty*tz
+		(v000*(1-tx)*(1-ty)*(1-tz)) +
+		(v100*tx*(1-ty)*(1-tz)) +
+		(v010*(1-tx)*ty*(1-tz)) +
+		(v110*tx*ty*(1-tz)) +
+		(v001*(1-tx)*(1-ty)*tz) +
+		(v101*tx*(1-ty)*tz) +
+		(v011*(1-tx)*ty*tz) +
+		(v111*tx*ty*tz)
 	);
 }
 
 double noise2d(int x, int y, int seed)
 {
-	int n = (NOISE_MAGIC_X * x + NOISE_MAGIC_Y * y
-			+ NOISE_MAGIC_SEED * seed) & 0x7fffffff;
+	int n = ((NOISE_MAGIC_X * x) + (NOISE_MAGIC_Y * y)
+			+ (NOISE_MAGIC_SEED * seed)) & 0x7fffffff;
 	n = (n>>13)^n;
-	n = (n * (n*n*60493+19990303) + 1376312589) & 0x7fffffff;
-	return 1.0 - (double)n/1073741824;
+	n = ((n * ((n*n*60493)+19990303)) + 1376312589) & 0x7fffffff;
+	return 1.0 - ((double)n/1073741824);
 }
 
 double noise3d(int x, int y, int z, int seed)
 {
-	int n = (NOISE_MAGIC_X * x + NOISE_MAGIC_Y * y + NOISE_MAGIC_Z * z
-			+ NOISE_MAGIC_SEED * seed) & 0x7fffffff;
+	int n = ((NOISE_MAGIC_X * x) + (NOISE_MAGIC_Y * y) + (NOISE_MAGIC_Z * z)
+			+ (NOISE_MAGIC_SEED * seed)) & 0x7fffffff;
 	n = (n>>13)^n;
-	n = (n * (n*n*60493+19990303) + 1376312589) & 0x7fffffff;
-	return 1.0 - (double)n/1073741824;
+	n = ((n * ((n*n*60493)+19990303)) + 1376312589) & 0x7fffffff;
+	return 1.0 - ((double)n/1073741824);
 }
 
 #if 0
@@ -124,8 +124,8 @@ double noise2d_gradient(double x, double y, int seed)
 double noise2d_gradient(double x, double y, int seed)
 {
 	// Calculate the integer coordinates
-	int x0 = (x > 0.0 ? (int)x : (int)x - 1);
-	int y0 = (y > 0.0 ? (int)y : (int)y - 1);
+	int x0 = (x > 0.0 ? (int)x : ((int)x - 1));
+	int y0 = (y > 0.0 ? (int)y : ((int)y - 1));
 	// Calculate the remaining part of the coordinates
 	double xl = x - (double)x0;
 	double yl = y - (double)y0;
@@ -142,9 +142,9 @@ double noise2d_gradient(double x, double y, int seed)
 double noise3d_gradient(double x, double y, double z, int seed)
 {
 	// Calculate the integer coordinates
-	int x0 = (x > 0.0 ? (int)x : (int)x - 1);
-	int y0 = (y > 0.0 ? (int)y : (int)y - 1);
-	int z0 = (z > 0.0 ? (int)z : (int)z - 1);
+	int x0 = (x > 0.0 ? (int)x : ((int)x - 1));
+	int y0 = (y > 0.0 ? (int)y : ((int)y - 1));
+	int z0 = (z > 0.0 ? (int)z : ((int)z - 1));
 	// Calculate the remaining part of the coordinates
 	double xl = x - (double)x0;
 	double yl = y - (double)y0;
@@ -170,7 +170,7 @@ double noise2d_perlin(double x, double y, int seed,
 	double g = 1.0;
 	for(int i=0; i<octaves; i++)
 	{
-		a += g * noise2d_gradient(x*f, y*f, seed+i);
+		a += (g * noise2d_gradient(x*f, y*f, seed+i));
 		f *= 2.0;
 		g *= persistence;
 	}
@@ -185,7 +185,7 @@ double noise2d_perlin_abs(double x, double y, int seed,
 	double g = 1.0;
 	for(int i=0; i<octaves; i++)
 	{
-		a += g * fabs(noise2d_gradient(x*f, y*f, seed+i));
+		a += (g * fabs(noise2d_gradient(x*f, y*f, seed+i)));
 		f *= 2.0;
 		g *= persistence;
 	}
@@ -200,7 +200,7 @@ double noise3d_perlin(double x, double y, double z, int seed,
 	double g = 1.0;
 	for(int i=0; i<octaves; i++)
 	{
-		a += g * noise3d_gradient(x*f, y*f, z*f, seed+i);
+		a += (g * noise3d_gradient(x*f, y*f, z*f, seed+i));
 		f *= 2.0;
 		g *= persistence;
 	}
@@ -215,7 +215,7 @@ double noise3d_perlin_abs(double x, double y, double z, int seed,
 	double g = 1.0;
 	for(int i=0; i<octaves; i++)
 	{
-		a += g * fabs(noise3d_gradient(x*f, y*f, z*f, seed+i));
+		a += (g * fabs(noise3d_gradient(x*f, y*f, z*f, seed+i)));
 		f *= 2.0;
 		g *= persistence;
 	}
@@ -307,9 +307,9 @@ void NoiseBuffer::create(const NoiseParams &param,
 	m_samplelength_y = samplelength_y;
 	m_samplelength_z = samplelength_z;
 
-	m_size_x = (last_x - m_start_x)/samplelength_x + 2;
-	m_size_y = (last_y - m_start_y)/samplelength_y + 2;
-	m_size_z = (last_z - m_start_z)/samplelength_z + 2;
+	m_size_x = ((last_x - m_start_x)/samplelength_x) + 2;
+	m_size_y = ((last_y - m_start_y)/samplelength_y) + 2;
+	m_size_z = ((last_z - m_start_z)/samplelength_z) + 2;
 
 	m_data = new double[m_size_x*m_size_y*m_size_z];
 
@@ -317,9 +317,9 @@ void NoiseBuffer::create(const NoiseParams &param,
 	for(int y=0; y<m_size_y; y++)
 	for(int z=0; z<m_size_z; z++)
 	{
-		double xd = (m_start_x + (double)x*m_samplelength_x);
-		double yd = (m_start_y + (double)y*m_samplelength_y);
-		double zd = (m_start_z + (double)z*m_samplelength_z);
+		double xd = (m_start_x + ((double)x*m_samplelength_x));
+		double yd = (m_start_y + ((double)y*m_samplelength_y));
+		double zd = (m_start_z + ((double)z*m_samplelength_z));
 		double a = noise3d_param(param, xd,yd,zd);
 		intSet(x,y,z, a);
 	}
@@ -333,9 +333,9 @@ void NoiseBuffer::multiply(const NoiseParams &param)
 	for(int y=0; y<m_size_y; y++)
 	for(int z=0; z<m_size_z; z++)
 	{
-		double xd = (m_start_x + (double)x*m_samplelength_x);
-		double yd = (m_start_y + (double)y*m_samplelength_y);
-		double zd = (m_start_z + (double)z*m_samplelength_z);
+		double xd = (m_start_x + ((double)x*m_samplelength_x));
+		double yd = (m_start_y + ((double)y*m_samplelength_y));
+		double zd = (m_start_z + ((double)z*m_samplelength_z));
 		double a = noise3d_param(param, xd,yd,zd);
 		intMultiply(x,y,z, a);
 	}
@@ -361,7 +361,7 @@ void NoiseBuffer::create(int seed, int octaves, double persistence,
 
 void NoiseBuffer::intSet(int x, int y, int z, double d)
 {
-	int i = m_size_x*m_size_y*z + m_size_x*y + x;
+	int i = (m_size_x*m_size_y*z) + (m_size_x*y) + x;
 	assert(i >= 0);
 	assert(i < m_size_x*m_size_y*m_size_z);
 	m_data[i] = d;
@@ -369,7 +369,7 @@ void NoiseBuffer::intSet(int x, int y, int z, double d)
 
 void NoiseBuffer::intMultiply(int x, int y, int z, double d)
 {
-	int i = m_size_x*m_size_y*z + m_size_x*y + x;
+	int i = (m_size_x*m_size_y*z) + (m_size_x*y) + x;
 	assert(i >= 0);
 	assert(i < m_size_x*m_size_y*m_size_z);
 	m_data[i] = m_data[i] * d;
@@ -377,7 +377,7 @@ void NoiseBuffer::intMultiply(int x, int y, int z, double d)
 
 double NoiseBuffer::intGet(int x, int y, int z)
 {
-	int i = m_size_x*m_size_y*z + m_size_x*y + x;
+	int i = (m_size_x*m_size_y*z) + (m_size_x*y) + x;
 	assert(i >= 0);
 	assert(i < m_size_x*m_size_y*m_size_z);
 	return m_data[i];

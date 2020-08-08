@@ -1367,6 +1367,8 @@ int main(int argc, char *argv[])
 	bool fullscreen = false;
 	u16 screenW = g_settings->getU16("screenW");
 	u16 screenH = g_settings->getU16("screenH");
+	//u8 screenW = 640;//g_settings->getU16("screenW");
+	//u8 screenH = 480;//g_settings->getU16("screenH");
 
 	// Determine driver
 

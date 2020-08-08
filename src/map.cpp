@@ -3481,15 +3481,15 @@ MapBlock* ServerMap::loadBlock(v3s16 blockpos)
 		}
 		catch(InvalidFilenameException &e)
 		{
-			return false;
+			return NULL;
 		}
 		catch(FileNotGoodException &e)
 		{
-			return false;
+			return NULL;
 		}
 		catch(std::exception &e)
 		{
-			return false;
+			return NULL;
 		}
 	}
 	

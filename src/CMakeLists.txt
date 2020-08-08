@@ -145,7 +145,6 @@ endif()
 # Client sources
 set(minetest_SRCS
 	${common_SRCS}
-	MyBillboardSceneNode.cpp
 	content_mapblock.cpp
 	content_cao.cpp
 	mapblock_mesh.cpp
@@ -265,8 +264,9 @@ else()
 		set(ARCH i386)
 	endif()
 
-	set(CMAKE_CXX_FLAGS_RELEASE "-DNDEBUG ${RELEASE_WARNING_FLAGS} ${WARNING_FLAGS} -O3 -ffast-math -Wall -fomit-frame-pointer -pipe -funroll-loops")
-	set(CMAKE_CXX_FLAGS_DEBUG "-g -O1 -Wall ${WARNING_FLAGS}")
+	###set(CMAKE_CXX_FLAGS_RELEASE "-std=gnu++98 -fpermissive -DNDEBUG ${RELEASE_WARNING_FLAGS} ${WARNING_FLAGS} -O0 -ffast-math -Wall -fomit-frame-pointer -pipe -funroll-loops") ### O3
+	set(CMAKE_CXX_FLAGS_RELEASE "-std=gnu++98 -fpermissive -DNDEBUG ${RELEASE_WARNING_FLAGS} ${WARNING_FLAGS} -O0 -Wall -fomit-frame-pointer -pipe")
+	set(CMAKE_CXX_FLAGS_DEBUG "-std=gnu++98 -fpermissive -g -O0 -Wall ${WARNING_FLAGS}") ##O1
 
 	if(USE_GPROF)
 		set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -pg")
