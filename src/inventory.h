@@ -32,7 +32,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "main.h" // For g_materials
 #include "mapnode.h" // For content_t
 
-#define QUANTITY_ITEM_MAX_COUNT 99
+#define QUANTITY_ITEM_MAX_COUNT 65535
 
 class ServerActiveObject;
 class ServerEnvironment;
