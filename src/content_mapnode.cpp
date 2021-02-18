@@ -150,6 +150,7 @@ void content_mapnode_init()
 	f->setInventoryTextureCube("mud.png", "mud.png", "mud.png");
 	f->param_type = CPT_MINERAL;
 	f->is_ground_content = true;
+	f->often_contains_mineral = true;
 	f->dug_item = std::string("MaterialItem2 ")+itos(i)+" 1";
 	setDirtLikeDiggingProperties(f->digging_properties, 1.0);
 	

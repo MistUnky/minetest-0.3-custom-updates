@@ -42,6 +42,12 @@ InventoryItem* item_material_create_cook_result(content_t content)
 		return new MaterialItem(CONTENT_STONE, 1);
 	else if(content == CONTENT_SAND)
 		return new MaterialItem(CONTENT_GLASS, 1);
+		
+	else if(content == CONTENT_CLAY)
+		return new MaterialItem(CONTENT_MUD, 2);
+	else if(content == CONTENT_MUD)
+		return new MaterialItem(CONTENT_STONE, 2);
+		
 	return NULL;
 }
 

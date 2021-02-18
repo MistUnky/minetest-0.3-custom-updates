@@ -1656,7 +1656,7 @@ void make_block(BlockMakeData *data)
 					else if(noisebuf_cave.get(x,y,z) > CAVE_NOISE_THRESHOLD)
 						vmanip.m_data[i] = MapNode(CONTENT_AIR);
 					else
-						vmanip.m_data[i] = MapNode(CONTENT_STONE);
+						vmanip.m_data[i] = MapNode(CONTENT_MUD);
 				}
 			
 				data->vmanip->m_area.add_y(em, i, 1);
@@ -1685,7 +1685,7 @@ void make_block(BlockMakeData *data)
 				{
 					v3s16 p = v3s16(x,y,z) + g_27dirs[i];
 					u32 vi = vmanip.m_area.index(p);
-					if(vmanip.m_data[vi].getContent() == CONTENT_STONE)
+					if(vmanip.m_data[vi].getContent() == CONTENT_MUD)
 						if(mineralrandom.next()%8 == 0)
 							vmanip.m_data[vi] = MapNode(CONTENT_MESE);
 				}
@@ -1705,18 +1705,18 @@ void make_block(BlockMakeData *data)
 				s16 y = mineralrandom.range(node_min.Y+1, node_max.Y-1);
 				s16 z = mineralrandom.range(node_min.Z+1, node_max.Z-1);
 
-				u8 base_content = CONTENT_STONE;
+				u8 base_content = CONTENT_MUD;
 				MapNode new_content(CONTENT_IGNORE);
 				u32 sparseness = 6;
 
 				if(noisebuf_ground_crumbleness.get(x,y+5,z) < -0.1)
 				{
-					new_content = MapNode(CONTENT_STONE, MINERAL_COAL);
+					new_content = MapNode(CONTENT_MUD, MINERAL_COAL);
 				}
 				else
 				{
 					if(noisebuf_ground_wetness.get(x,y+5,z) > 0.0)
-						new_content = MapNode(CONTENT_STONE, MINERAL_IRON);
+						new_content = MapNode(CONTENT_MUD, MINERAL_IRON);
 					/*if(noisebuf_ground_wetness.get(x,y,z) > 0.0)
 						vmanip.m_data[i] = MapNode(CONTENT_MUD);
 					else
@@ -1763,9 +1763,9 @@ void make_block(BlockMakeData *data)
 				{
 					v3s16 p = v3s16(x,y,z) + g_27dirs[i];
 					u32 vi = vmanip.m_area.index(p);
-					if(vmanip.m_data[vi].getContent() == CONTENT_STONE)
+					if(vmanip.m_data[vi].getContent() == CONTENT_MUD)
 						if(mineralrandom.next()%8 == 0)
-							vmanip.m_data[vi] = MapNode(CONTENT_STONE, MINERAL_COAL);
+							vmanip.m_data[vi] = MapNode(CONTENT_MUD, MINERAL_COAL);
 				}
 			}
 		}
@@ -1789,9 +1789,9 @@ void make_block(BlockMakeData *data)
 				{
 					v3s16 p = v3s16(x,y,z) + g_27dirs[i];
 					u32 vi = vmanip.m_area.index(p);
-					if(vmanip.m_data[vi].getContent() == CONTENT_STONE)
+					if(vmanip.m_data[vi].getContent() == CONTENT_MUD)
 						if(mineralrandom.next()%8 == 0)
-							vmanip.m_data[vi] = MapNode(CONTENT_STONE, MINERAL_IRON);
+							vmanip.m_data[vi] = MapNode(CONTENT_MUD, MINERAL_IRON);
 				}
 			}
 		}
@@ -1812,7 +1812,7 @@ void make_block(BlockMakeData *data)
 			u32 i = vmanip.m_area.index(v3s16(p2d.X, node_max.Y, p2d.Y));
 			for(s16 y=node_max.Y; y>=node_min.Y; y--)
 			{
-				if(vmanip.m_data[i].getContent() == CONTENT_STONE)
+				if(vmanip.m_data[i].getContent() == CONTENT_MUD)
 				{
 					if(noisebuf_ground_crumbleness.get(x,y,z) > 1.3)
 					{
@@ -2014,7 +2014,7 @@ void make_block(BlockMakeData *data)
 					if(vmanip.m_data[i].getContent() == CONTENT_AIR)
 						air_detected = true;
 
-					if((vmanip.m_data[i].getContent() == CONTENT_STONE
+					if((vmanip.m_data[i].getContent() == CONTENT_MUD
 							|| vmanip.m_data[i].getContent() == CONTENT_GRASS
 							|| vmanip.m_data[i].getContent() == CONTENT_MUD
 							|| vmanip.m_data[i].getContent() == CONTENT_SAND
@@ -2055,7 +2055,7 @@ void make_block(BlockMakeData *data)
 						{
 							if(vmanip.m_data[i].getContent() == CONTENT_MUD
 								|| vmanip.m_data[i].getContent() == CONTENT_GRASS)
-								vmanip.m_data[i] = MapNode(CONTENT_STONE);
+								vmanip.m_data[i] = MapNode(CONTENT_MUD);
 						}
 
 						current_depth++;

@@ -1051,7 +1051,7 @@ void ServerEnvironment::step(float dtime)
 				/*
 					Fun things spawn in caves and dungeons
 				*/
-				if(n.getContent() == CONTENT_STONE ||
+				if(n.getContent() == CONTENT_MUD ||
 						n.getContent() == CONTENT_MOSSYCOBBLE)
 				{
    					if(myrand()%200 == 0 && active_object_count_wider == 0)

@@ -37,7 +37,53 @@ InventoryItem *craft_get_result(InventoryItem **items)
 		{
 			return new MaterialItem(CONTENT_WOOD, 4);
 		}
+	}//MYINE
+	
+	
+	
+	
+	{
+		ItemSpec specs[9];
+		specs[0] = ItemSpec(ITEM_MATERIAL, CONTENT_SAPLING);
+		if(checkItemCombination(items, specs))
+		{
+			return new MaterialItem(CONTENT_SAPLING, 2);
+		}
 	}
+	{
+		ItemSpec specs[9];
+		specs[1] = ItemSpec(ITEM_MATERIAL, CONTENT_SAPLING);
+		specs[2] = ItemSpec(ITEM_MATERIAL, CONTENT_SAPLING);
+		if(checkItemCombination(items, specs))
+		{
+			return new MaterialItem(CONTENT_SAPLING, 1);
+		}
+	}
+	
+	
+	{ //COBBLE TO MUD
+		ItemSpec specs[9];
+		specs[0] = ItemSpec(ITEM_MATERIAL, CONTENT_COBBLE);
+		if(checkItemCombination(items, specs))
+		{
+			return new MaterialItem(CONTENT_MUD, 2);
+		}
+	}
+	{ //MUD TO CLAY
+		ItemSpec specs[9];
+		specs[0] = ItemSpec(ITEM_MATERIAL, CONTENT_MUD);
+		if(checkItemCombination(items, specs))
+		{
+			return new MaterialItem(CONTENT_CLAY, 2);
+		}
+	}
+	
+	
+	
+	
+	
+	
+	//ENDMINE
 
 	// Stick
 	{
@@ -298,7 +344,7 @@ InventoryItem *craft_get_result(InventoryItem **items)
 	}
 
 	// Locking Chest
-	{
+	/*{
 		ItemSpec specs[9];
 		specs[0] = ItemSpec(ITEM_MATERIAL, CONTENT_WOOD);
 		specs[1] = ItemSpec(ITEM_MATERIAL, CONTENT_WOOD);
@@ -313,7 +359,7 @@ InventoryItem *craft_get_result(InventoryItem **items)
 		{
 			return new MaterialItem(CONTENT_LOCKABLE_CHEST, 1);
 		}
-	}
+	}*/
 
 	// Furnace
 	{
@@ -326,6 +372,23 @@ InventoryItem *craft_get_result(InventoryItem **items)
 		specs[6] = ItemSpec(ITEM_MATERIAL, CONTENT_COBBLE);
 		specs[7] = ItemSpec(ITEM_MATERIAL, CONTENT_COBBLE);
 		specs[8] = ItemSpec(ITEM_MATERIAL, CONTENT_COBBLE);
+		if(checkItemCombination(items, specs))
+		{
+			return new MaterialItem(CONTENT_FURNACE, 1);
+		}
+	}
+		// Furnace Backup
+	{
+		ItemSpec specs[9];
+		specs[0] = ItemSpec(ITEM_MATERIAL, CONTENT_MUD);
+		specs[1] = ItemSpec(ITEM_MATERIAL, CONTENT_MUD);
+		specs[2] = ItemSpec(ITEM_MATERIAL, CONTENT_MUD);
+		specs[3] = ItemSpec(ITEM_MATERIAL, CONTENT_MUD);
+		specs[4] = ItemSpec(ITEM_CRAFT, "lump_of_coal");
+		specs[5] = ItemSpec(ITEM_MATERIAL, CONTENT_MUD);
+		specs[6] = ItemSpec(ITEM_MATERIAL, CONTENT_MUD);
+		specs[7] = ItemSpec(ITEM_MATERIAL, CONTENT_MUD);
+		specs[8] = ItemSpec(ITEM_MATERIAL, CONTENT_MUD);
 		if(checkItemCombination(items, specs))
 		{
 			return new MaterialItem(CONTENT_FURNACE, 1);

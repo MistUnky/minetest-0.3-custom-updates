@@ -906,7 +906,7 @@ void mapblock_mesh_generate_special(MeshMakeData *data,
 		/*
 			Add stones with minerals if stone is invisible
 		*/
-		else if(n.getContent() == CONTENT_STONE && invisible_stone && n.getMineral() != MINERAL_NONE)
+		else if(n.getContent() == CONTENT_MUD && invisible_stone && n.getMineral() != MINERAL_NONE)
 		{
 			for(u32 j=0; j<6; j++)
 			{
