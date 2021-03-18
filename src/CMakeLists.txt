@@ -228,7 +228,7 @@ if(MSVC)
 	# EHa enables SEH exceptions (used for catching segfaults)
 	set(CMAKE_CXX_FLAGS_RELEASE "/EHa /O2 /Ob2 /Oi /Ot /Oy /GL /FD /MT /GS- /arch:SSE /fp:fast /D NDEBUG /D _HAS_ITERATOR_DEBUGGING=0 /TP")
 	#set(CMAKE_EXE_LINKER_FLAGS_RELEASE "/LTCG /NODEFAULTLIB:\"libcmtd.lib\" /NODEFAULTLIB:\"libcmt.lib\"")
-	set(CMAKE_EXE_LINKER_FLAGS_RELEASE "/LTCG")
+	set(CMAKE_EXE_LINKER_FLAGS_RELEASE "/LTCG /SAFESEH:NO")
 
 	# Debug build doesn't catch exceptions by itself
 	# Add some optimizations because otherwise it's VERY slow
@@ -244,19 +244,13 @@ if(MSVC)
 	endif(BUILD_SERVER)
 
 else()
-	# Probably GCC
+	set(CFLAGS "-fwrapv -fno-fast-math")
+	set(OPT_CFLAGS "-O3 -fomit-frame-pointer")
 	
-	if(WARN_ALL)
-		set(RELEASE_WARNING_FLAGS "-Wall")
-	else()
-		set(RELEASE_WARNING_FLAGS "")
-	endif()
-	
-	if(NOT APPLE AND NOT "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-		CHECK_CXX_COMPILER_FLAG("-Wno-unused-but-set-variable" HAS_UNUSED_BUT_SET_VARIABLE_WARNING)
-		if(HAS_UNUSED_BUT_SET_VARIABLE_WARNING)
-			set(WARNING_FLAGS "${WARNING_FLAGS} -Wno-unused-but-set-variable")
-		endif(HAS_UNUSED_BUT_SET_VARIABLE_WARNING)
+	if(CMAKE_SYSTEM_NAME STREQUAL "FreeBSD")
+		set(CFLAGS "${CFLAGS} -I/usr/local/include") 
+		set(CXXFLAGS "-std=gnu++98")
+		set(LDFLAGS "${LDFLAGS} -L/usr/local/include")
 	endif()
 	
 	if(APPLE)
@@ -265,8 +259,57 @@ else()
 	endif()
 
 	###set(CMAKE_CXX_FLAGS_RELEASE "-std=gnu++98 -fpermissive -DNDEBUG ${RELEASE_WARNING_FLAGS} ${WARNING_FLAGS} -O0 -ffast-math -Wall -fomit-frame-pointer -pipe -funroll-loops") ### O3
-	set(CMAKE_CXX_FLAGS_RELEASE "-std=gnu++98 -fpermissive -DNDEBUG ${RELEASE_WARNING_FLAGS} ${WARNING_FLAGS} -O0 -Wall -fomit-frame-pointer -pipe")
-	set(CMAKE_CXX_FLAGS_DEBUG "-std=gnu++98 -fpermissive -g -O0 -Wall ${WARNING_FLAGS}") ##O1
+	#set(CMAKE_CXX_FLAGS_RELEASE "-std=gnu++98 -fpermissive -DNDEBUG ${RELEASE_WARNING_FLAGS} ${WARNING_FLAGS} -O3 -Wall -fomit-frame-pointer -pipe")
+	#set(CMAKE_CXX_FLAGS_DEBUG "-std=gnu++98 -fpermissive -g -O0 -Wall ${WARNING_FLAGS}") ##O1
+
+
+
+
+
+
+
+
+		if(ENABLE_SSP)
+			CHECK_CXX_COMPILER_FLAG("-fstack-protector-strong" HAS_FSTACK_STRONG)
+			if(HAS_FSTACK_STRONG)
+				set(CFLAGS "${CFLAGS} -fstack-protector-strong")
+			else()
+				set(CFLAGS "${CFLAGS} -fstack-protector")
+			endif()
+		endif()
+		if(ENABLE_SAFESTACK)
+			CHECK_CXX_COMPILER_FLAG("-fsanitize=safe-stack" HAS_SAFESTACK)
+			if(HAS_SAFESTACK)
+				set(CFLAGS "${CFLAGS} -fsanitize=safe-stack")
+				set(LDFLAGS "${LDFLAGS} -fsanitize=safe-stack -lrt")
+			endif()
+		endif()
+		if(ENABLE_PIE)
+			set(CFLAGS "${CFLAGS} -fPIC -fPIE")
+			set(LDFLAGS "${LDFLAGS} -Wl,-pie")
+		endif()
+		if(CPU_OPTS)
+			set(OPT_CFLAGS "${OPT_CFLAGS} -march=${CPUTYPE}")
+		endif()
+	
+		set(CMAKE_CXX_FLAGS_RELEASE "${OPT_CFLAGS} ${CFLAGS} ${CXXFLAGS} -Wall -DNDEBUG -pipe -fpermissive -Wno-write-strings")
+		set(CMAKE_C_FLAGS_RELEASE "${OPT_CFLAGS} ${CFLAGS} -Wall -DNDEBUG -pipe")
+		set(CMAKE_CXX_FLAGS_DEBUG "${CFLAGS} ${CXXFLAGS} -Wall -O0 -g3 -ggdb -fpermissive -Wno-write-strings")
+		set(CMAKE_C_FLAGS_DEBUG "${CFLAGS} -Wall -O0 -g3 -ggdb")
+	
+		set(CMAKE_EXE_LINKER_FLAGS_RELEASE ${LDFLAGS})
+		set(CMAKE_MODULE_LINKER_FLAGS_RELEASE ${CMAKE_EXE_LINKER_FLAGS_RELEASE})
+		set(CMAKE_SHARED_LINKER_FLAGS_RELEASE ${CMAKE_EXE_LINKER_FLAGS_RELEASE})
+		set(CMAKE_EXE_LINKER_FLAGS_DEBUG "${LDFLAGS}")
+		set(CMAKE_MODULE_LINKER_FLAGS_DEBUG ${CMAKE_EXE_LINKER_FLAGS_DEBUG})
+		set(CMAKE_SHARED_LINKER_FLAGS_DEBUG ${CMAKE_EXE_LINKER_FLAGS_DEBUG})
+
+
+
+
+
+
+
 
 	if(USE_GPROF)
 		set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -pg")
